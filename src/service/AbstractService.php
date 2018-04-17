@@ -229,6 +229,7 @@ abstract class AbstractService {
         
         $headers[] = "Content-type: application/x-www-form-urlencoded";
         $headers[] = "Authorization: Basic " . base64_encode("$this->userId:$this->password");
+        $headers[] = "User-Agent: Mozilla/5.0 (Windows NT x.y; rv:10.0) Gecko/20100101 Firefox/10.0";
         
         $context = stream_context_create(array(
                 'http' => array(
