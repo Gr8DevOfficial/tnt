@@ -3,12 +3,13 @@
 /**
  * Abstract Service
  *
- * @author Wojciech Brozyna <wojciech.brozyna@gmail.com>
+ * @author Wojciech Brozyna <http://vobro.systems>
  * @license https://github.com/200MPH/tnt/blob/master/LICENCE MIT
  */
 
 namespace thm\tnt_ec\service;
 
+use XMLWriter;
 use thm\tnt_ec\MyXMLWriter;
 use thm\tnt_ec\TNTException;
 
@@ -95,9 +96,7 @@ abstract class AbstractService {
         $this->userId = $userId;
         $this->password = $password;
         
-        $this->xml = new MyXMLWriter();
-        $this->xml->openMemory();
-        $this->xml->setIndent(true);
+        $this->initXml();
                 
     }
     
@@ -112,6 +111,20 @@ abstract class AbstractService {
         
     }
     
+    /**
+     * Initialize XML object
+     * 
+     * @return void
+     */
+    public function initXml()
+    {
+        
+        $this->xml = new MyXMLWriter();
+        $this->xml->openMemory();
+        $this->xml->setIndent(true);
+        
+    }
+           
     /**
      * Set account
      * 
@@ -243,13 +256,13 @@ abstract class AbstractService {
                 )
         );
         
-        $output = file_get_contents($this->getServiceUrl(), false, $context);
+        $output = @file_get_contents($this->getServiceUrl(), false, $context);
         
         // $http_response_header comes from PHP engine, 
         // it's not a part of this code
         // http://php.net/manual/en/reserved.variables.httpresponseheader.php
         HTTPHeaders::$headers = $http_response_header;
-                
+        
         return $output;
         
     }
